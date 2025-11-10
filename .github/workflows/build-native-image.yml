@@ -23,16 +23,19 @@ jobs:
           distribution: 'temurin'  # OpenJDK
           java-version: '24'
           cache: 'maven'
+      #3. Adiciona permissão ao Maven
+      - name: Give execute permission to mvnw
+        run: chmod +x mvnw
 
-      # 3. Build da aplicação normal (gera o .jar)
+      # 4. Build da aplicação normal (gera o .jar)
       - name: Build application (Maven package)
         run: ./mvnw clean package -DskipTests
 
-      # 4. Build nativo com GraalVM dentro de container Docker
+      # 5. Build nativo com GraalVM dentro de container Docker
       - name: Build Native Image (GraalVM)
         run: ./mvnw -Pnative -Dnative.useContainer=true native:compile
 
-      # 5. Armazena o binário gerado como artefato do workflow
+      # 6. Armazena o binário gerado como artefato do workflow
       - name: Upload Native Binary
         uses: actions/upload-artifact@v4
         with:
