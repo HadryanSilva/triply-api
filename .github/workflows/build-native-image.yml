@@ -1,0 +1,40 @@
+name: Build Native Image
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-native:
+    name: Build Native Spring Boot App
+    runs-on: ubuntu-latest
+
+    steps:
+      # 🧩 1. Checkout do código
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      #2. Instalar JDK (necessário compilar o código Java antes do build nativo)
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'  # OpenJDK
+          java-version: '24'
+          cache: 'maven'
+
+      # 3. Build da aplicação normal (gera o .jar)
+      - name: Build application (Maven package)
+        run: ./mvnw clean package -DskipTests
+
+      # 4. Build nativo com GraalVM dentro de container Docker
+      - name: Build Native Image (GraalVM)
+        run: ./mvnw -Pnative -Dnative.useContainer=true native:compile
+
+      # 5. Armazena o binário gerado como artefato do workflow
+      - name: Upload Native Binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: triply-native
+          path: target/triply

@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: triply
+  threads:
+    virtual:
+      enabled: true
+  jpa:
+    open-in-view: false
