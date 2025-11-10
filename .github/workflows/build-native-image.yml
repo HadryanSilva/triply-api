@@ -34,7 +34,7 @@ jobs:
 
       # 5. Build nativo com GraalVM dentro de container Docker
       - name: Build Native Image (GraalVM)
-        run: ./mvnw -Pnative -Dnative.useContainer=true native:compile
+        run: ./mvnw -B -q -Pnative -Dnative.useContainer=true native:compile
 
       # 6. Armazena o binário gerado como artefato do workflow
       - name: Upload Native Binary
