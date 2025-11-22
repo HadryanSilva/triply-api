@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/triply_db
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+  threads:
+    virtual:
+      enabled: true
+
+springdoc:
+  swagger-ui:
+    path: /docs
