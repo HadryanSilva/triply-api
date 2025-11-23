@@ -6,6 +6,7 @@ import br.com.hadryan.triply.api.mapper.response.trip.TripResponse;
 import br.com.hadryan.triply.api.usecase.trip.CreateTripUseCase;
 import br.com.hadryan.triply.api.usecase.trip.FindTripByIdUseCase;
 import jakarta.validation.Valid;
+import org.jspecify.annotations.NonNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,13 +33,13 @@ public class TripController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TripResponse> findById(@PathVariable UUID id) {
+    public ResponseEntity<@NonNull TripResponse> findById(@PathVariable UUID id) {
         var tripFound =findTripByIdUseCase.execute(id);
         return ResponseEntity.ok(tripMapper.tripToResponse(tripFound));
     }
 
     @PostMapping
-    public ResponseEntity<TripResponse> create(@RequestBody @Valid TripPostRequest request) {
+    public ResponseEntity<@NonNull TripResponse> create(@RequestBody @Valid TripPostRequest request) {
         var tripToSave = tripMapper.postToTrip(request);
         var tripCreated = createTripUseCase.execute(tripToSave);
         return ResponseEntity.created(URI.create("/api/v1/trips" + tripCreated.getId()))

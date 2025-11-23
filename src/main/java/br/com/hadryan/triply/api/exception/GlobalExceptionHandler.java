@@ -1,6 +1,7 @@
 package br.com.hadryan.triply.api.exception;
 
 import jakarta.validation.ConstraintViolationException;
+import org.jspecify.annotations.NonNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ProblemDetail> handleNotFoundException(NotFoundException ex, WebRequest request) {
+    public ResponseEntity<@NonNull ProblemDetail> handleNotFoundException(NotFoundException ex, WebRequest request) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.NOT_FOUND, ex.getMessage()
         );
@@ -30,7 +31,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ProblemDetail> handleBusinessException(BusinessException ex, WebRequest request) {
+    public ResponseEntity<@NonNull ProblemDetail> handleBusinessException(BusinessException ex, WebRequest request) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.BAD_REQUEST, ex.getMessage()
         );
@@ -42,7 +43,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ProblemDetail> handleValidationExceptions(
+    public ResponseEntity<@NonNull ProblemDetail> handleValidationExceptions(
             MethodArgumentNotValidException ex) {
 
         Map<String, String> errors = new HashMap<>();
@@ -63,7 +64,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ProblemDetail> handleConstraintViolation(
+    public ResponseEntity<@NonNull ProblemDetail> handleConstraintViolation(
             ConstraintViolationException ex) {
 
         Map<String, String> errors = new HashMap<>();
